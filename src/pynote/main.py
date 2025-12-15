@@ -15,8 +15,34 @@ class PyNoteApp(tk.Tk):
         self._create_menu()
         self._bind_shortcuts()
 
+    def _create_toolbar(self):
+        toolbar = ttk.Frame(self, padding=2)
+
+        ttk.Button(
+            toolbar,
+            text='🆕',
+            width=3,
+            command=self.new_file
+        ).pack(side='left', padx=2)
+
+        ttk.Button(
+            toolbar,
+            text='📂',
+            width=3,
+            command=self.open_file
+        ).pack(side='left', padx=2)
+
+        ttk.Button(
+            toolbar,
+            text='💾',
+            width=3,
+            command=self.save_file
+        ).pack(side='left', padx=2)
+
+        toolbar.pack(side='top', fill='x')
+
     def _create_widgets(self):
-        # Text widget with scrollbar
+        self._create_toolbar()
         self.text = tk.Text(self, wrap='word', undo=True)
         self.vsb = ttk.Scrollbar(self, orient='vertical', command=self.text.yview)
         self.text.configure(yscrollcommand=self.vsb.set)
@@ -44,6 +70,8 @@ class PyNoteApp(tk.Tk):
         filemenu.add_command(label='Exit', command=self.quit)
         menu.add_cascade(label='File', menu=filemenu)
         self.config(menu=menu)
+
+
 
     def _bind_shortcuts(self):
         self.bind('<Control-s>', lambda e: self.save_file())
